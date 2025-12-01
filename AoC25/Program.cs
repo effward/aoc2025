@@ -2,5 +2,6 @@
 
 using AoC25;
 
-Console.WriteLine(Day1.Solve());
+Console.WriteLine("Day 1, Part 1: " + Day1.SolvePart1());
+Console.WriteLine("Day 1, Part 2: " + Day1.SolvePart2());
 
