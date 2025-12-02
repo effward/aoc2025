@@ -6,9 +6,8 @@ public class Day2
     {
         return SumInvalidIds(input, IsValidId);
 
-        bool IsValidId(long num)
+        bool IsValidId(string numStr)
         {
-            var numStr = num.ToString();
             for (var digits = 1; digits <= numStr.Length / 2; digits++)
             {
                 if (numStr.Length % digits != 0)
@@ -16,26 +15,7 @@ public class Day2
                     continue;
                 }
 
-                var target = numStr[..digits];
-                bool allMatch = true;
-                for (var i = 0; i < numStr.Length; i += digits)
-                {
-                    for (var c = 0; c < target.Length; c++)
-                    {
-                        if (target[c] != numStr[i + c])
-                        {
-                            allMatch = false;
-                            break;
-                        }
-                    }
-
-                    if (!allMatch)
-                    {
-                        break;
-                    }
-                }
-
-                if (allMatch)
+                if (AreDigitsRepeated(numStr, digits))
                 {
                     return false;
                 }
@@ -49,26 +29,34 @@ public class Day2
     {
         return SumInvalidIds(input, IsValidId);
         
-        bool IsValidId(long num)
+        bool IsValidId(string numStr)
         {
-            var numStr = num.ToString();
             if (numStr.Length % 2 != 0)
             {
                 // odd number of digits
                 return true;
             }
-                
-            var target = numStr[..(numStr.Length / 2)];
-            if (numStr.EndsWith(target))
-            {
-                return false;
-            }
 
-            return true;
+            return !AreDigitsRepeated(numStr, numStr.Length / 2);
         }
     }
     
-    private static long SumInvalidIds(string input, Func<long, bool> isValid)
+    private static bool AreDigitsRepeated(string numStr, int digits)
+    {
+        var target = numStr[..digits];
+        for (var i = 0; i < numStr.Length; i += digits)
+        {
+            var candidate = numStr.Substring(i, digits);
+            if (candidate != target)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+    private static long SumInvalidIds(string input, Func<string, bool> isValid)
     {
         long total = 0;
         var parts = input.Split(',');
@@ -85,7 +73,7 @@ public class Day2
 
             for (var num = lower; num <= upper; num++)
             {
-                if (!isValid(num))
+                if (!isValid(num.ToString()))
                 {
                     total += num;
                 }
