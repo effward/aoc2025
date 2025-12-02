@@ -5,7 +5,7 @@ public class Tests
     [SetUp]
     public void Setup()
     {
-        // Input.OverrideInputs();
+        Input.OverrideInputs();
     }
 
     [Test]
@@ -22,5 +22,13 @@ public class Tests
         var day1Part2Output = Day1.SolvePart2(Inputs.Day1Input);
         Assert.That(day1Part2Output, Is.EqualTo(Inputs.Day1Part2Output));
         Assert.Warn($"Day1Part2 Output: {day1Part2Output}");
+    }
+
+    [Test]
+    public void Day2Test()
+    {
+        var day2Output = Day2.Solve(Inputs.Day2Input);
+        Assert.That(day2Output, Is.EqualTo(Inputs.Day2Output));
+        Assert.Warn($"Day2 Output: {day2Output}");
     }
 }
