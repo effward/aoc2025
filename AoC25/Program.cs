@@ -1,24 +1,18 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using AoC25;
+using AoC25.Tests;
 
-const string day1Input = """
-                L68
-                L30
-                R48
-                L5
-                R60
-                L55
-                L1
-                L99
-                R14
-                L82
-                """;
+// Input.OverrideInputs();
 
-Console.WriteLine("Day 1, Part 1: " + Day1.SolvePart1(day1Input));
-Console.WriteLine("Day 1, Part 2: " + Day1.SolvePart2(day1Input));
+// Day 1
+Console.WriteLine("Day 1, Part 1: " + Day1.SolvePart1(Inputs.Day1Input));
+Console.WriteLine("Day 1, Part 2: " + Day1.SolvePart2(Inputs.Day1Input));
 
-const string day2Input = "11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124";
+// Day 2
+Console.WriteLine("Day 2, Part 1: " + Day2.SolvePart1(Inputs.Day2Input));
+Console.WriteLine("Day 2, Part 2: " + Day2.SolvePart2(Inputs.Day2Input));
 
-Console.WriteLine("Day 2, Part 1: " + Day2.SolvePart1(day2Input));
-Console.WriteLine("Day 2, Part 2: " + Day2.SolvePart2(day2Input));
+// Day 3
+Console.WriteLine("Day 3, Part 1: " + Day3.SolvePart1(Inputs.Day3Input));
+Console.WriteLine("Day 3, Part 2: " + Day3.SolvePart2(Inputs.Day3Input));
