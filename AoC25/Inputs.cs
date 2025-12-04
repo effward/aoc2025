@@ -30,6 +30,7 @@ public static class Inputs
     public static string Day3Input { get; set; } = "987654321111111\n811111111111119\n234234234234278\n818181911112111";
     
     // Day 4
+    public static long Day4Part2Output { get; set; } = 43;
     public static long Day4Part1Output { get; set; } = 13;
     public static string Day4Input { get; set; } = """
                                                    ..@@.@@@@.

@@ -19,3 +19,4 @@ Console.WriteLine("Day 3, Part 2: " + Day3.SolvePart2(Inputs.Day3Input));
 
 // Day 4
 Console.WriteLine("Day 4, Part 1: " + Day4.SolvePart1(Inputs.Day4Input));
+Console.WriteLine("Day 4, Part 2: " + Day4.SolvePart2(Inputs.Day4Input));

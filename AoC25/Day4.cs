@@ -2,11 +2,53 @@ namespace AoC25;
 
 public class Day4
 {
+    public static long SolvePart2(string input)
+    {
+        var grid = BuildGrid(input);
+        long totalSpots = 0;
+        long accessibleSpots;
+
+        do
+        {
+            accessibleSpots = CountAndMarkAccessibleSpots(grid);
+            totalSpots += accessibleSpots;
+            CleanGrid(grid);
+        } while (accessibleSpots > 0);
+        
+        return totalSpots;
+    }
+    
     public static long SolvePart1(string input)
     {
-        var lines = input.Split('\n');
-        var grid = lines.Select(line => line.Trim().ToCharArray()).ToArray();
+        var grid = BuildGrid(input);
+        return CountAndMarkAccessibleSpots(grid);
+    }
 
+    private static char[][] BuildGrid(string input)
+    {
+        var lines = input.Split('\n');
+        var grid = from line in lines
+            where !string.IsNullOrWhiteSpace(line)
+            select line.Trim().ToCharArray();
+        return grid.ToArray();
+    }
+
+    private static void CleanGrid(char[][] grid)
+    {
+        for (var i = 0; i < grid.Length; i++)
+        {
+            for (var j = 0; j < grid[i].Length; j++)
+            {
+                if (grid[i][j] == 'X')
+                {
+                    grid[i][j] = '.';
+                }
+            }
+        }
+    }
+
+    private static long CountAndMarkAccessibleSpots(char[][] grid)
+    {
         var accessibleSpots = 0;
 
         for (var i = 0; i < grid.Length; i++)
