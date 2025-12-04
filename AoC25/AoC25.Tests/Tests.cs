@@ -55,4 +55,20 @@ public class Tests
         Assert.That(day3Output, Is.EqualTo(Inputs.Day3Part2Output));
         Assert.Warn($"Day3Part2 Output: {day3Output}");
     }
+
+    [Test]
+    public void Day4Part1Test()
+    {
+        var day4Output = Day4.SolvePart1(Inputs.Day4Input);
+        Assert.That(day4Output, Is.EqualTo(Inputs.Day4Part1Output));
+        Assert.Warn($"Day4Part1 Output: {day4Output}");
+    }
+
+    [Test]
+    public void Day4Part2Test()
+    {
+        var day4Output = Day4.SolvePart2(Inputs.Day4Input);
+        Assert.That(day4Output, Is.EqualTo(Inputs.Day4Part2Output));
+        Assert.Warn($"Day4Part2 Output: {day4Output}");
+    }
 }
