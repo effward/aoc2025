@@ -2,73 +2,22 @@
 
 public class Tests
 {
-    [SetUp]
-    public void Setup()
+    private static readonly IEnumerable<TestCase> _TestCases;
+
+    static Tests()
     {
         // Input.OverrideInputs();
+        _TestCases = Inputs.BuildTestCases();
     }
 
-    [Test]
-    public void Day1Part1Test()
+    [TestCaseSource(nameof(_TestCases))]
+    public void TestDays(TestCase testCase)
     {
-        var day1Part1Output = Day1.SolvePart1(Inputs.Day1Input);
-        Assert.That(day1Part1Output, Is.EqualTo(Inputs.Day1Part1Output));
-        Assert.Warn($"Day1Part1 Output: {day1Part1Output}");
-    }
-    
-    [Test]
-    public void Day1Part2Test()
-    {
-        var day1Part2Output = Day1.SolvePart2(Inputs.Day1Input);
-        Assert.That(day1Part2Output, Is.EqualTo(Inputs.Day1Part2Output));
-        Assert.Warn($"Day1Part2 Output: {day1Part2Output}");
-    }
-
-    [Test]
-    public void Day2Part1Test()
-    {
-        var day2Output = Day2.SolvePart1(Inputs.Day2Input);
-        Assert.That(day2Output, Is.EqualTo(Inputs.Day2Part1Output));
-        Assert.Warn($"Day2Part2 Output: {day2Output}");
-    }
-    
-    [Test]
-    public void Day2Part2Test()
-    {
-        var day2Output = Day2.SolvePart2(Inputs.Day2Input);
-        Assert.That(day2Output, Is.EqualTo(Inputs.Day2Part2Output));
-        Assert.Warn($"Day2Part2 Output: {day2Output}");
-    }
-
-    [Test]
-    public void Day3Part1Test()
-    {
-        var day3Output = Day3.SolvePart1(Inputs.Day3Input);
-        Assert.That(day3Output, Is.EqualTo(Inputs.Day3Part1Output));
-        Assert.Warn($"Day3Part1 Output: {day3Output}");
-    }
-    
-    [Test]
-    public void Day3Part2Test()
-    {
-        var day3Output = Day3.SolvePart2(Inputs.Day3Input);
-        Assert.That(day3Output, Is.EqualTo(Inputs.Day3Part2Output));
-        Assert.Warn($"Day3Part2 Output: {day3Output}");
-    }
-
-    [Test]
-    public void Day4Part1Test()
-    {
-        var day4Output = Day4.SolvePart1(Inputs.Day4Input);
-        Assert.That(day4Output, Is.EqualTo(Inputs.Day4Part1Output));
-        Assert.Warn($"Day4Part1 Output: {day4Output}");
-    }
-
-    [Test]
-    public void Day4Part2Test()
-    {
-        var day4Output = Day4.SolvePart2(Inputs.Day4Input);
-        Assert.That(day4Output, Is.EqualTo(Inputs.Day4Part2Output));
-        Assert.Warn($"Day4Part2 Output: {day4Output}");
+        var part1Output = testCase.Day.SolvePart1(testCase.Input);
+        Assert.That(part1Output, Is.EqualTo(testCase.Part1Output));
+        
+        var part2Output = testCase.Day.SolvePart2(testCase.Input);
+        Assert.That(part2Output, Is.EqualTo(testCase.Part2Output));
+        Assert.Warn($"{testCase.Day.Description} - Part1 Output: {part1Output}, Part2 Output: {part2Output}");
     }
 }

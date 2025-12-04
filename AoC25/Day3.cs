@@ -1,15 +1,17 @@
 namespace AoC25;
 
-public class Day3
+public class Day3 : IDay
 {
-    public static long SolvePart2(string input)
+    public string Description => "Day 3";
+    
+    public long SolvePart2(string input)
     {
         const int numBatteries = 12;
         
         return SumJoltage(input, numBatteries);
     }
     
-    public static long SolvePart1(string input)
+    public long SolvePart1(string input)
     {
         const int numBatteries = 2;
             

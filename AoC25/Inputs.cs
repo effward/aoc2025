@@ -1,4 +1,12 @@
-namespace AoC25.Tests;
+namespace AoC25;
+
+public struct TestCase(IDay day, string input, long part1Output, long part2Output)
+{
+    public IDay Day { get; set; } = day;
+    public string Input { get; set; } = input;
+    public long Part1Output { get; set; } = part1Output;
+    public long Part2Output { get; set; } =  part2Output;
+}
 
 public static class Inputs
 {
@@ -44,4 +52,18 @@ public static class Inputs
                                                    .@@@@@@@@.
                                                    @.@.@@@.@.
                                                    """;
+    
+    // Day 5
+    public static long Day5Part1Output { get; set; } = 42;
+    public static long Day5Part2Output { get; set; } = 42;
+    public static string Day5Input { get; set; } = string.Empty;
+    
+    public static List<TestCase> BuildTestCases() =>
+    [
+        new (new Day1(), Day1Input, Day1Part1Output, Day1Part2Output),
+        new (new Day2(), Day2Input, Day2Part1Output, Day2Part2Output),
+        new (new Day3(), Day3Input, Day3Part1Output, Day3Part2Output),
+        new (new Day4(), Day4Input, Day4Part1Output, Day4Part2Output),
+        new (new Day5(), Day5Input, Day5Part1Output, Day5Part2Output)
+    ];
 }
