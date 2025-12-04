@@ -1,8 +1,10 @@
 namespace AoC25;
 
-public class Day1
+public class Day1 : IDay
 {
-    public static int SolvePart2(string input)
+    public string Description => "Day 1";
+    
+    public long SolvePart2(string input)
     {
         return PerformCount(input, CountZeros);
 
@@ -50,7 +52,7 @@ public class Day1
         }
     }
     
-    public static int SolvePart1(string input)
+    public long SolvePart1(string input)
     {
         return PerformCount(input, CountFinalZeros);
 
@@ -71,7 +73,6 @@ public class Day1
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                Console.WriteLine("Input is empty/whitespace");
                 continue;
             }
 

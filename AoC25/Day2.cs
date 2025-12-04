@@ -1,8 +1,10 @@
 namespace AoC25;
 
-public class Day2
+public class Day2 : IDay
 {
-    public static long SolvePart2(string input)
+    public string Description => "Day 2";
+    
+    public long SolvePart2(string input)
     {
         return SumInvalidIds(input, IsValidId);
 
@@ -25,7 +27,7 @@ public class Day2
         }
     }
     
-    public static long SolvePart1(string input)
+    public long SolvePart1(string input)
     {
         return SumInvalidIds(input, IsValidId);
         

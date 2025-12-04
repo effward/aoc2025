@@ -1,8 +1,10 @@
 namespace AoC25;
 
-public class Day4
+public class Day4 : IDay
 {
-    public static long SolvePart2(string input)
+    public string Description => "Day 4";
+    
+    public long SolvePart2(string input)
     {
         var grid = BuildGrid(input);
         long totalSpots = 0;
@@ -18,7 +20,7 @@ public class Day4
         return totalSpots;
     }
     
-    public static long SolvePart1(string input)
+    public long SolvePart1(string input)
     {
         var grid = BuildGrid(input);
         return CountAndMarkAccessibleSpots(grid);
