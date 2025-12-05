@@ -54,9 +54,22 @@ public static class Inputs
                                                    """;
     
     // Day 5
-    public static long Day5Part1Output { get; set; } = 42;
+    public static long Day5Part1Output { get; set; } = 3;
     public static long Day5Part2Output { get; set; } = 42;
-    public static string Day5Input { get; set; } = string.Empty;
+
+    public static string Day5Input { get; set; } = """
+                                                   3-5
+                                                   10-14
+                                                   16-20
+                                                   12-18
+
+                                                   1
+                                                   5
+                                                   8
+                                                   11
+                                                   17
+                                                   32
+                                                   """;
     
     public static List<TestCase> BuildTestCases() =>
     [
