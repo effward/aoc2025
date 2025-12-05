@@ -3,7 +3,7 @@
 using System.Diagnostics;
 using AoC25;
 
-Input.OverrideInputs();
+// Input.OverrideInputs();
 
 foreach (var testCase in Inputs.BuildTestCases())
 {

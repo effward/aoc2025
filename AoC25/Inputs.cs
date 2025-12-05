@@ -55,7 +55,7 @@ public static class Inputs
     
     // Day 5
     public static long Day5Part1Output { get; set; } = 3;
-    public static long Day5Part2Output { get; set; } = 42;
+    public static long Day5Part2Output { get; set; } = 14;
 
     public static string Day5Input { get; set; } = """
                                                    3-5

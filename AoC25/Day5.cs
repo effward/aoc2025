@@ -6,7 +6,26 @@ public class Day5 : IDay
     
     public long SolvePart2(string input)
     {
-        return 42;
+        input = input.Trim();
+        var lines = input.Split('\n');
+        
+        var (freshRanges, _) = BuildFreshRanges(lines);
+        
+        long totalFreshIds = 0;
+        long highest = 0;
+        foreach (var freshRange in freshRanges)
+        {
+            var start = Math.Max(freshRange.Start, highest);
+            var diff = freshRange.End - start + 1;
+            totalFreshIds += Math.Max(0, diff);
+
+            if (freshRange.End > highest)
+            {
+                highest = freshRange.End + 1;
+            }
+        }
+        
+        return totalFreshIds;
     }
     
     public long SolvePart1(string input)
