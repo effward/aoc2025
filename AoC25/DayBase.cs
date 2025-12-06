@@ -18,9 +18,9 @@ public abstract class DayBase(int dayNumber) : IDay
         return LoopAndAdd(parts, add);
     }
 
-    protected static (string[], T, int) SplitAndBuild<T>(string input, Func<string[], (T, int)> build)
+    protected static (string[], T, int) SplitAndBuild<T>(string input, Func<string[], (T, int)> build, char separator = '\n')
     {
-        var lines = SplitLines(input);
+        var lines = SplitLines(input, separator);
         var (ds, idx) = build(lines);
         return (lines, ds, idx);
     }
