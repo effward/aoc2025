@@ -5,6 +5,7 @@ using AoC25;
 
 // Input.OverrideInputs();
 
+var totalStopwatch = Stopwatch.StartNew();
 foreach (var testCase in Inputs.BuildTestCases())
 {
     Console.WriteLine($"### {testCase.Day.Description} ###");
@@ -17,3 +18,4 @@ foreach (var testCase in Inputs.BuildTestCases())
     Console.WriteLine($"Part 2: {part2}  in {stopwatch.ElapsedMilliseconds} ms");
     Console.WriteLine();
 }
+Console.WriteLine($"Total time: {totalStopwatch.ElapsedMilliseconds} ms");
