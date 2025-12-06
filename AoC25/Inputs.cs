@@ -2,10 +2,10 @@ namespace AoC25;
 
 public struct TestCase(IDay day, string input, long part1Output, long part2Output)
 {
-    public IDay Day { get; set; } = day;
-    public string Input { get; set; } = input;
-    public long Part1Output { get; set; } = part1Output;
-    public long Part2Output { get; set; } =  part2Output;
+    public IDay Day { get; } = day;
+    public string Input { get; } = input;
+    public long Part1Output { get; } = part1Output;
+    public long Part2Output { get; } =  part2Output;
 }
 
 public static class Inputs
@@ -71,12 +71,23 @@ public static class Inputs
                                                    32
                                                    """;
     
+    // Day 6
+    public static long Day6Part1Output { get; set; } = 4277556;
+    public static long Day6Part2Output { get; set; } = 3263827;
+    public static string Day6Input { get; set; } = """
+                                                   123 328  51 64 
+                                                    45 64  387 23 
+                                                     6 98  215 314
+                                                   *   +   *   +  
+                                                   """;
+    
     public static List<TestCase> BuildTestCases() =>
     [
         new (new Day1(), Day1Input, Day1Part1Output, Day1Part2Output),
         new (new Day2(), Day2Input, Day2Part1Output, Day2Part2Output),
         new (new Day3(), Day3Input, Day3Part1Output, Day3Part2Output),
         new (new Day4(), Day4Input, Day4Part1Output, Day4Part2Output),
-        new (new Day5(), Day5Input, Day5Part1Output, Day5Part2Output)
+        new (new Day5(), Day5Input, Day5Part1Output, Day5Part2Output),
+        new (new Day6(), Day6Input, Day6Part1Output, Day6Part2Output)
     ];
 }
