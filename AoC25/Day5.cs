@@ -1,47 +1,37 @@
 namespace AoC25;
 
-public class Day5 : IDay
+public class Day5() : DayBase(5)
 {
-    public string Description => "Day 5";
-    
-    public long SolvePart2(string input)
+    public override long SolvePart2(string input)
     {
-        input = input.Trim();
-        var lines = input.Split('\n');
-        
-        var (freshRanges, _) = BuildFreshRanges(lines);
-        
-        long totalFreshIds = 0;
         long highest = 0;
-        foreach (var freshRange in freshRanges)
+
+        long AddAllFresh(FreshRange freshRange)
         {
             var start = Math.Max(freshRange.Start, highest);
             var diff = freshRange.End - start + 1;
-            totalFreshIds += Math.Max(0, diff);
 
             if (freshRange.End > highest)
             {
                 highest = freshRange.End + 1;
             }
+            
+            return Math.Max(0, diff);
         }
         
-        return totalFreshIds;
+        var (_, freshRanges, _) = SplitAndBuild(input, BuildFreshRanges);
+        return LoopAndAdd(freshRanges, AddAllFresh);
     }
     
-    public long SolvePart1(string input)
+    public override long SolvePart1(string input)
     {
-        input = input.Trim();
-        var lines = input.Split('\n');
-        
-        var (freshRanges, idx) = BuildFreshRanges(lines);
+        return SplitBuildLoopAndAdd(input, BuildFreshRanges, AddFresh);
 
-        var freshCount = 0;
-        for (var i = idx; i < lines.Length; i++)
+        long AddFresh(string line, IList<FreshRange> freshRanges)
         {
-            var line = lines[i];
             if (string.IsNullOrWhiteSpace(line))
             {
-                continue;
+                return 0;
             }
             
             var target = long.Parse(line);
@@ -49,8 +39,7 @@ public class Day5 : IDay
             {
                 if (target >= freshRange.Start && target <= freshRange.End)
                 {
-                    freshCount++;
-                    break;
+                    return 1;
                 }
 
                 if (target < freshRange.Start)
@@ -59,9 +48,9 @@ public class Day5 : IDay
                     break;
                 }
             }
-        }
 
-        return freshCount;
+            return 0;
+        }
     }
     
     private readonly record struct FreshRange(long Start, long End);
