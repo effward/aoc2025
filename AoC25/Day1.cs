@@ -1,10 +1,8 @@
 namespace AoC25;
 
-public class Day1 : IDay
+public class Day1() : DayBase(1)
 {
-    public string Description => "Day 1";
-    
-    public long SolvePart2(string input)
+    public override long SolvePart2(string input)
     {
         return PerformCount(input, CountZeros);
 
@@ -17,42 +15,42 @@ public class Day1 : IDay
             
             var start = position;
             var end = position + movement;
+
+            int firstMultiple, lastMultiple;
             
             if (movement > 0)
             {
                 // Count multiples of 100 in the range (position, position + movement]
-                var firstMultiple = ((start / 100) + 1) * 100;
-                var lastMultiple = (end / 100) * 100;
+                firstMultiple = ((start / 100) + 1) * 100;
+                lastMultiple = (end / 100) * 100;
 
                 if (firstMultiple > end)
                 {
                     return 0;
                 }
-                
-                return (lastMultiple - firstMultiple) / 100 + 1;
             }
             else // movement < 0
             {
                 // Count multiples of 100 in the range [position + movement, position)
-                var firstMult = (int)Math.Ceiling(end / 100.0) * 100;
-                var lastMult = (int)Math.Floor((start - 1) / 100.0) * 100;
+                firstMultiple = (int)Math.Ceiling(end / 100.0) * 100;
+                lastMultiple = (int)Math.Floor((start - 1) / 100.0) * 100;
 
-                if (firstMult >= start)
+                if (firstMultiple >= start)
                 {
                     return 0;
                 }
 
-                if (lastMult < firstMult)
+                if (lastMultiple < firstMultiple)
                 {
                     return 0;
                 }
-                
-                return (lastMult - firstMult) / 100 + 1;
             }
+            
+            return (lastMultiple - firstMultiple) / 100 + 1;
         }
     }
     
-    public long SolvePart1(string input)
+    public override long SolvePart1(string input)
     {
         return PerformCount(input, CountFinalZeros);
 
@@ -65,10 +63,13 @@ public class Day1 : IDay
 
     private static int PerformCount(string inputStr, Func<int, int, int> countFunc)
     {
+        const char right = 'R';
+        const char left = 'L';
+    
         var position = 50;
         var counter = 0;
-        
-        var inputs = inputStr.Split('\n');
+
+        var inputs = SplitLines(inputStr);
         foreach (var input in inputs)
         {
             if (string.IsNullOrWhiteSpace(input))
@@ -76,28 +77,15 @@ public class Day1 : IDay
                 continue;
             }
 
-            if (input.Length <= 1)
-            {
-                Console.WriteLine("Input is invalid");
-                continue;
-            }
-
             var direction = input[0];
-            var mult = 1;
-            switch (direction)
+            var mult = direction switch
             {
-                case 'R':
-                    mult = 1;
-                    break;
-                case 'L':
-                    mult = -1;
-                    break;
-                default:
-                    Console.WriteLine("Input is invalid");
-                    throw new InvalidOperationException();
-            }
+                right => 1,
+                left => -1,
+                _ => throw new InvalidOperationException()
+            };
 
-            var distanceStr = input.Substring(1);
+            var distanceStr = input[1..];
             var distance = int.Parse(distanceStr);
             var movement = distance * mult;
             counter += countFunc(position, movement);

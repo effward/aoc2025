@@ -1,10 +1,8 @@
 namespace AoC25;
 
-public class Day2 : IDay
+public class Day2() : DayBase(2)
 {
-    public string Description => "Day 2";
-    
-    public long SolvePart2(string input)
+    public override long SolvePart2(string input)
     {
         return SumInvalidIds(input, IsValidId);
 
@@ -27,7 +25,7 @@ public class Day2 : IDay
         }
     }
     
-    public long SolvePart1(string input)
+    public override long SolvePart1(string input)
     {
         return SumInvalidIds(input, IsValidId);
         
@@ -60,9 +58,9 @@ public class Day2 : IDay
     
     private static long SumInvalidIds(string input, Func<string, bool> isValid)
     {
-        long total = 0;
-        var parts = input.Split(',');
-        foreach (var part in parts)
+        return SplitLoopAndAdd(input, AddInvalid, ',');
+
+        long AddInvalid(string part)
         {
             var bounds = part.Split('-');
             if (bounds.Length != 2)
@@ -73,6 +71,7 @@ public class Day2 : IDay
             var lower = long.Parse(bounds[0]);
             var upper = long.Parse(bounds[1]);
 
+            long total = 0;
             for (var num = lower; num <= upper; num++)
             {
                 if (!isValid(num.ToString()))
@@ -80,8 +79,8 @@ public class Day2 : IDay
                     total += num;
                 }
             }
-        }
 
-        return total;
+            return total;
+        }
     }
 }

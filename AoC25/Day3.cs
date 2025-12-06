@@ -1,17 +1,15 @@
 namespace AoC25;
 
-public class Day3 : IDay
+public class Day3() : DayBase(3)
 {
-    public string Description => "Day 3";
-    
-    public long SolvePart2(string input)
+    public override long SolvePart2(string input)
     {
         const int numBatteries = 12;
         
         return SumJoltage(input, numBatteries);
     }
     
-    public long SolvePart1(string input)
+    public override long SolvePart1(string input)
     {
         const int numBatteries = 2;
             
@@ -20,28 +18,24 @@ public class Day3 : IDay
 
     private static long SumJoltage(string input, int numBatteries)
     {
-        var banks = input.Split('\n');
+        return SplitLoopAndAdd(input, AddJoltage);
 
-        long totalJoltage = 0;
-        foreach (var bank in banks)
+        long AddJoltage(string bank)
         {
             if (string.IsNullOrWhiteSpace(bank))
             {
-                continue;
+                return 0;
             }
             
             var trimmedBank = bank.Trim();
-            var bankJoltage = GetMaxJoltage(trimmedBank, numBatteries);
-            totalJoltage += bankJoltage;
+            return GetMaxJoltage(trimmedBank, numBatteries);
         }
-
-        return totalJoltage;
     }
     
     private static long GetMaxJoltage(string bank, int numBatteries)
     {
         var batteries = new (int, int)[numBatteries];
-        for (int i = 0; i < numBatteries; i++)
+        for (var i = 0; i < numBatteries; i++)
         {
             var toSkipFront = 0;
             if (i > 0)
@@ -54,7 +48,7 @@ public class Day3 : IDay
         }
             
         long joltage = 0;
-        for (int i = 0; i < numBatteries; i++)
+        for (var i = 0; i < numBatteries; i++)
         {
             var exp = numBatteries - i - 1;
             joltage += batteries[i].Item1 * (long)Math.Pow(10, exp);
@@ -68,7 +62,7 @@ public class Day3 : IDay
         int highest = 0, highestIndex = -1;
         for (var batteryIndex = toSkipFront; batteryIndex < bank.Length - toSkipBack; batteryIndex++)
         {
-            if (!int.TryParse(bank.Substring(batteryIndex, 1), out var joltage))
+            if (!int.TryParse(bank.AsSpan(batteryIndex, 1), out var joltage))
             {
                 continue;
             }
