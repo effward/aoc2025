@@ -2,14 +2,14 @@ namespace AoC25;
 
 public class Day7() : DayBase(7)
 {
+    private static long _Sum = 0;
+    private static Dictionary<Position, Node> _NodePositions = new ();
+
     public override long SolvePart2(string input)
     {
         return _Sum;
     }
-
-    private static long _Sum = 0;
-    private static Dictionary<Position, Node> _NodePositions = new ();
-
+    
     public override long SolvePart1(string input)
     {
         var grid = BuildGrid(input);
