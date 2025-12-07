@@ -4,12 +4,12 @@ public class Day2() : DayBase(2)
 {
     public override long SolvePart2(string input)
     {
-        return SumInvalidIdsV3(input);
+        return SumInvalidIdsV3(input, false);
     }
     
     public override long SolvePart1(string input)
     {
-        return SumInvalidIdsV2(input);
+        return SumInvalidIdsV3(input, true);
     }
     
     private record struct Range(long Lower, long Upper);
@@ -36,7 +36,7 @@ public class Day2() : DayBase(2)
         return (ranges, 0);
     }
     
-    private static long SumInvalidIdsV3(string input)
+    private static long SumInvalidIdsV3(string input, bool onlyHalf)
     {
         var (_, ranges, _) = SplitAndBuild(input, BuildRanges, ',');
 
@@ -44,7 +44,13 @@ public class Day2() : DayBase(2)
         var set = new HashSet<long>();
         foreach (var range in ranges)
         {
-            for (var digits = 1; digits <= NumDigits(range.Upper) / 2; digits++)
+            var minDigits = 1;
+            if (onlyHalf)
+            {
+                minDigits = NumDigits(range.Lower) / 2;
+            }
+            minDigits = Math.Max(minDigits, 1);
+            for (var digits = minDigits; digits <= NumDigits(range.Upper) / 2; digits++)
             {
                 for (var num = (int)Math.Pow(10, digits - 1); num < (int)Math.Pow(10, digits); num++)
                 {
@@ -68,6 +74,11 @@ public class Day2() : DayBase(2)
                             }
                         }
 
+                        if (onlyHalf)
+                        {
+                            break;
+                        }
+
                         target += num * (long)Math.Pow(10, exp * reps);
                         reps++;
                     }
@@ -76,46 +87,6 @@ public class Day2() : DayBase(2)
         }
 
         return total;
-    }
-    
-    private static long SumInvalidIdsV2(string input)
-    {
-        return SplitLoopAndAdd(input, AddInvalid, ',');
-
-        long AddInvalid(string part)
-        {
-            var bounds = part.Split('-');
-            if (bounds.Length != 2)
-            {
-                throw new ArgumentException("Invalid input format", nameof(input));
-            }
-            var lowerStr = bounds[0];
-            var upperStr = bounds[1];
-            
-            var lower = long.Parse(lowerStr);
-            var upper = long.Parse(upperStr);
-
-            var halfLower = lowerStr.Length == 1 ? lower : long.Parse(lowerStr[..(lowerStr.Length / 2)]);
-            var halfUpper = upperStr.Length == 1 ? upper : long.Parse(upperStr[..(upperStr.Length / 2)]);
-
-            long total = 0;
-            for (var num = halfLower; num <= halfUpper; num++)
-            {
-                var numStr = num.ToString() + num.ToString();
-                var target = long.Parse(numStr);
-                if (target >= lower && target <= upper)
-                {
-                    total += target;
-                }
-
-                if (target > upper)
-                {
-                    break;
-                }
-            }
-
-            return total;
-        }
     }
     
     private static int NumDigits(long num)
