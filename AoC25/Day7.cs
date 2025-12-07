@@ -4,7 +4,38 @@ public class Day7() : DayBase(7)
 {
     public override long SolvePart2(string input)
     {
-        return 42;
+        if (_RootNode is null)
+        {
+            throw new Exception("You need to run part 1 before part 2");
+        }
+
+        return _Sum;
+    }
+
+    private static long _Sum = 0;
+    private static Node? _RootNode = null;
+    private static Dictionary<Position, Node> _NodePositions = new ();
+    private record struct Position(int Row, int Col);
+
+    private class Node(Position position, ISet<Node> parents, ISet<Node> children, long count)
+    {
+        public Position Position { get; } = position;
+        public ISet<Node> Parents { get; } = parents;
+        public ISet<Node> Children { get; } = children;
+        public long Count { get; set; } = count;
+    }
+    
+    private static Node? NewNode(int row, int col, long count)
+    {
+        var position = new Position(row, col);
+        var node = new Node(position, new HashSet<Node>(), new HashSet<Node>(), count);
+        if (!_NodePositions.TryAdd(node.Position, node))
+        {
+            // Node already exists at this location
+            return null;
+        }
+
+        return node;
     }
 
     public override long SolvePart1(string input)
@@ -14,89 +45,136 @@ public class Day7() : DayBase(7)
 
         var curRow = 0;
         var curCol = -1;
+        Node rootNode = default;
 
         for (var i = 0; i < grid[0].Length; i++)
         {
             if (grid[0][i] == 'S')
             {
                 curCol = i;
+                rootNode = NewNode(0, curCol, 1) ?? throw new Exception("Graph should be empty when root node created");
+                _RootNode = rootNode;
                 break;
             }
         }
 
-        if (curCol == -1)
+        if (curCol == -1 || rootNode == default)
         {
             PrintGrid(grid);
             throw new ArgumentException("Invalid input");
         }
 
-        var beams = new Dictionary<int, Beam>
+        var nodes = new List<Node>
         {
-            [curCol] = new (curRow, curCol)
+            rootNode
         };
+        var nextNodes = new List<Node>();
         var totalSplits = 0;
         while (curRow < grid.Length)
         {
-            var nextBeams = new Dictionary<int, Beam>();
-            foreach (var kv in beams)
+            nextNodes = [];
+            foreach (var node in nodes)
             {
-                var beam = kv.Value;
-                beam.Row++;
-                grid[beam.Row][beam.Col] = '|';
-                beam.Row++;
+                var nodePosition = node.Position;
+                nodePosition.Row++;
+                grid[nodePosition.Row][nodePosition.Col] = '|';
+                nodePosition.Row++;
 
-                if (beam.Row >= grid.Length)
+                if (nodePosition.Row >= grid.Length)
                 {
                     continue;
                 }
                 
-                var curr = grid[beam.Row][beam.Col];
+                var curr = grid[nodePosition.Row][nodePosition.Col];
                 if (curr == '^')
                 {
-                    var leftBeam = beam with { Col = beam.Col - 1 };
-                    var rightBeam = beam with { Col = beam.Col + 1 };
-                    bool eitherAdded = false;
-                    if (nextBeams.TryAdd(leftBeam.Col, leftBeam))
-                    {
-                        grid[leftBeam.Row][leftBeam.Col] = '|';
-                        eitherAdded = true;
-                    }
+                    var leftNode = BuildNode(nodePosition.Row, nodePosition.Col - 1, node);
+                    var rightNode = BuildNode(nodePosition.Row, nodePosition.Col + 1, node);
 
-                    if (nextBeams.TryAdd(rightBeam.Col, rightBeam))
-                    {
-                        grid[rightBeam.Row][rightBeam.Col] = '|';
-                        eitherAdded = true;
-                    }
-
-                    if (eitherAdded)
+                    if (leftNode is not null || rightNode is not null)
                     {
                         totalSplits++;
                     }
                 }
                 else if (curr == '.')
                 {
-                    if (!nextBeams.TryAdd(beam.Col, beam))
+                    var nextNode = BuildNode(nodePosition.Row, nodePosition.Col, node);
+                    if (nextNode is null)
                     {
                         totalSplits--;
-                        grid[beam.Row][beam.Col] = '|';
                     }
+                    grid[nodePosition.Row][nodePosition.Col] = '|';
                 }
                 else if (curr == '|')
                 {
-                    // do nothing
+                    var existingNode = _NodePositions[nodePosition];
+                    existingNode.Count += node.Count;
                 }
                 else
                 {
                     throw new ArgumentException("Invalid input, unexpected char: " + curr);
                 }
             }
+
+            if (nextNodes.Count == 0)
+            {
+                break;
+            }
             
-            beams = nextBeams;
+            nodes = nextNodes;
             curRow += 2;
         }
         
+        var n = string.Join(", ", nodes.Select(x => x.Count.ToString()));
+        Console.WriteLine($"Nodes: [{n}]");
+        var sum = nodes.Sum(x => x.Count);
+        Console.WriteLine($"Sum: {sum}");
+        _Sum = sum;
+        
+        PrintGrid(grid);
         return totalSplits;
+
+        Node? BuildNode(int row, int col, Node parent)
+        {
+            var node = NewNode(row, col, parent.Count);
+            if (node is null)
+            {
+                var position = new Position(row, col);
+                if (!_NodePositions.TryGetValue(position, out var existingNode))
+                {
+                    throw new Exception(
+                        "Node just couldn't be created because of an existing node at this position, but now that can't be found");
+                }
+
+                if (!existingNode.Parents.Add(parent))
+                {
+                    throw new Exception("Existing node already has this parent");
+                }
+                
+                existingNode.Count += parent.Count;
+
+                if (!parent.Children.Add(existingNode))
+                {
+                    throw new Exception("Parent already has existing Node as child");
+                }
+                
+                return null;
+            }
+
+            if (!node.Parents.Add(parent))
+            {
+                throw new ArgumentException("Parent already exists on this brand new node");
+            }
+            if (!parent.Children.Add(node))
+            {
+                // TODO: Is this a problem?
+                throw new ArgumentException("Invalid input, this node is already a child on this parent");
+            }
+            
+            grid[node.Position.Row][node.Position.Col] = '|';
+            nextNodes.Add(node);
+
+            return node;
+        }
     }
-    
-    private record struct Beam(int Row, int Col);
 }

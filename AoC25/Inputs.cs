@@ -83,7 +83,7 @@ public static class Inputs
     
     // Day 7
     public static long Day7Part1Output { get; set; } = 21;
-    public static long Day7Part2Output { get; set; } = 42;
+    public static long Day7Part2Output { get; set; } = 40;
 
     public static string Day7Input { get; set; } = """
                                                    .......S.......
