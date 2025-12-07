@@ -42,4 +42,21 @@ public abstract class DayBase(int dayNumber) : IDay
         }
         return total;
     }
+    
+    protected static char[][] BuildGrid(string input)
+    {
+        var lines = SplitLines(input);
+        var grid = from line in lines
+            where !string.IsNullOrWhiteSpace(line)
+            select line.Trim().ToCharArray();
+        return grid.ToArray();
+    }
+
+    protected static void PrintGrid(char[][] grid)
+    {
+        foreach (var line in grid)
+        {
+            Console.WriteLine(line);
+        }
+    }
 }

@@ -24,15 +24,6 @@ public class Day4() : DayBase(4)
         return CountAndMarkAccessibleSpots(grid);
     }
 
-    private static char[][] BuildGrid(string input)
-    {
-        var lines = SplitLines(input);
-        var grid = from line in lines
-            where !string.IsNullOrWhiteSpace(line)
-            select line.Trim().ToCharArray();
-        return grid.ToArray();
-    }
-
     private static void CleanGrid(char[][] grid)
     {
         foreach (var row in grid)
