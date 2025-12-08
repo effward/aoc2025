@@ -106,7 +106,7 @@ public static class Inputs
     
     // Day 8
     public static long Day8Part1Output { get; set; } = 40;
-    public static long Day8Part2Output { get; set; } = 42;
+    public static long Day8Part2Output { get; set; } = 25272;
 
     public static string Day8Input { get; set; } = """
                                                    162,817,812
