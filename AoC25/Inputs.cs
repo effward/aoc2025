@@ -104,6 +104,33 @@ public static class Inputs
                                                    ...............
                                                    """;
     
+    // Day 8
+    public static long Day8Part1Output { get; set; } = 40;
+    public static long Day8Part2Output { get; set; } = 42;
+
+    public static string Day8Input { get; set; } = """
+                                                   162,817,812
+                                                   57,618,57
+                                                   906,360,560
+                                                   592,479,940
+                                                   352,342,300
+                                                   466,668,158
+                                                   542,29,236
+                                                   431,825,988
+                                                   739,650,466
+                                                   52,470,668
+                                                   216,146,977
+                                                   819,987,18
+                                                   117,168,530
+                                                   805,96,715
+                                                   346,949,466
+                                                   970,615,88
+                                                   941,993,340
+                                                   862,61,35
+                                                   984,92,344
+                                                   425,690,689
+                                                   """;
+    
     public static List<TestCase> BuildTestCases() =>
     [
         new (new Day1(), Day1Input, Day1Part1Output, Day1Part2Output),
@@ -113,5 +140,6 @@ public static class Inputs
         new (new Day5(), Day5Input, Day5Part1Output, Day5Part2Output),
         new (new Day6(), Day6Input, Day6Part1Output, Day6Part2Output),
         new (new Day7(), Day7Input, Day7Part1Output, Day7Part2Output),
+        new (new Day8(), Day8Input, Day8Part1Output, Day8Part2Output),
     ];
 }
