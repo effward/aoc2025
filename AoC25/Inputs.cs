@@ -131,6 +131,14 @@ public static class Inputs
                                                    425,690,689
                                                    """;
     
+    // Day 9
+    public static long Day9Part1Output { get; set; } = 42;
+    public static long Day9Part2Output { get; set; } = 42;
+
+    public static string Day9Input { get; set; } = """
+
+                                                   """;
+    
     public static List<TestCase> BuildTestCases() =>
     [
         new (new Day1(), Day1Input, Day1Part1Output, Day1Part2Output),
@@ -141,5 +149,6 @@ public static class Inputs
         new (new Day6(), Day6Input, Day6Part1Output, Day6Part2Output),
         new (new Day7(), Day7Input, Day7Part1Output, Day7Part2Output),
         new (new Day8(), Day8Input, Day8Part1Output, Day8Part2Output),
+        new (new Day9(), Day9Input, Day9Part1Output, Day9Part2Output),
     ];
 }
