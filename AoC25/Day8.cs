@@ -2,6 +2,9 @@ namespace AoC25;
 
 public class Day8() : DayBase(8)
 {
+    private static Dictionary<int, Junction> _Junctions = new();
+    private static List<Measurement> _DistList = new();
+    
     public override long SolvePart2(string input)
     {
         return Solve(input, true);
@@ -12,27 +15,40 @@ public class Day8() : DayBase(8)
         return Solve(input, false);
     }
 
-    private static long Solve(string input, bool noMax)
-    {
-        var (lines, junctions, _) = SplitAndBuild(input, BuildJunctions);
+    private readonly record struct Measurement(double Distance, int JunctionId1, int JunctionId2);
 
-        var max = 10;
-        if (lines.Length > 21)
-        {
-            max = 1000;
-        }
-        
-        var distList = new List<(double Distance, int Id1, int Id2)>();
+    private static void BuildJunctionsAndDist(string input)
+    {
+        var (_, junctions, _) = SplitAndBuild(input, BuildJunctions);
+        _Junctions = junctions;
+            
+        var distList = new List<Measurement>(junctions.Count * junctions.Count);
         for (var i = 0; i < junctions.Count - 1; i++)
         {
             for (var j = i + 1; j < junctions.Count; j++)
             {
                 var distance = GetDistance(junctions[i], junctions[j]);
-                distList.Add((distance, i, j));
+                var measurement =  new Measurement(distance, i, j);
+                distList.Add(measurement);
             }
         }
         
         distList.Sort((a, b) => a.Distance.CompareTo(b.Distance));
+        _DistList = distList;
+    }
+
+    private static long Solve(string input, bool noMax)
+    {
+        if (_Junctions.Count == 0)
+        {
+            BuildJunctionsAndDist(input);
+        }
+
+        var max = 10;
+        if (_Junctions.Count > 21)
+        {
+            max = 1000;
+        }
 
         var circuitIdCount = 0;
         var circuits = new Dictionary<int, Circuit>();
@@ -40,15 +56,20 @@ public class Day8() : DayBase(8)
 
         if (noMax)
         {
-            max = distList.Count;
+            max = _DistList.Count;
         }
-        
-        for (var i = 0; i < max; i++)
+
+        var i = 0;
+        foreach (var dist in _DistList)
         {
-            var dist = distList[i];
+            i++;
+            if (i > max)
+            {
+                break;
+            }
             
-            var junction1 = junctions[dist.Id1];
-            var junction2 = junctions[dist.Id2];
+            var junction1 = _Junctions[dist.JunctionId1];
+            var junction2 = _Junctions[dist.JunctionId2];
 
             if (circuitMembers.TryGetValue(junction1.Id, out var circuitId1))
             {
@@ -100,7 +121,7 @@ public class Day8() : DayBase(8)
                 }
             }
             
-            if (circuits.Count == 1 && circuitMembers.Count >= junctions.Count)
+            if (circuits.Count == 1 && circuitMembers.Count >= _Junctions.Count)
             {
                 return junction1.X * junction2.X;
             }
