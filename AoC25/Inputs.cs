@@ -124,11 +124,18 @@ public static class Inputs
                                                    """;
     
     // Day 9
-    public static long Day9Part1Output { get; set; } = 42;
+    public static long Day9Part1Output { get; set; } = 50;
     public static long Day9Part2Output { get; set; } = 42;
 
     public static string Day9Input { get; set; } = """
-
+                                                   7,1
+                                                   11,1
+                                                   11,7
+                                                   9,7
+                                                   9,5
+                                                   2,5
+                                                   2,3
+                                                   7,3
                                                    """;
     
     public static List<TestCase> BuildTestCases() =>
